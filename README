@@ -1,0 +1,8 @@
+This program hides a message file in the data of a 8-bit mono WAV file.
+The executable can be run with 3 sets of commnad-line arguments:
+1. StegoProject.exe (NO ARGUMENTS)
+    - Prints usage examples
+2. StegoProject.exe -hide -c [cover file] -m [message file] (-o [stego file]) (-b [bitcount])
+    - Hides the message in the stego file (a copy of the cover file) by modifying every successive pair of byte values so that the LSBs (number specified by bitcount) of the average of those two byte values are the next few bits of message data (again specified by bitcount)
+3. StegoProject.exe -extract -s [stego file] (-o [message file]) (-b [bitcount])
+    - Extracts a message from the stego file by copying the LSBs (number specified by bitcount) of the average of every pair of successive byte values in the stego file.
