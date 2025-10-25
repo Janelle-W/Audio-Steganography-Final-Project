@@ -1,8 +1,51 @@
-This program hides a message file in the data of a 8-bit mono WAV file.
-The executable can be run with 3 sets of commnad-line arguments:
-1. StegoProject.exe (NO ARGUMENTS)
-    - Prints usage examples
-2. StegoProject.exe -hide -c [cover file] -m [message file] (-o [stego file]) (-b [bitcount])
-    - Hides the message in the stego file (a copy of the cover file) by modifying every successive pair of byte values so that the LSBs (number specified by bitcount) of the average of those two byte values are the next few bits of message data (again specified by bitcount)
-3. StegoProject.exe -extract -s [stego file] (-o [message file]) (-b [bitcount])
-    - Extracts a message from the stego file by copying the LSBs (number specified by bitcount) of the average of every pair of successive byte values in the stego file.
+# StegoProject
+
+# Description
+StegoProject is a steganography application that hides and extracts secret messages in **8-bit mono WAV** files.  
+It embeds message bits into the least significant bits (LSBs) of the audio data without noticeably affecting sound quality.
+
+# Usage
+The executable supports three run modes depending on the command-line arguments.
+
+## 1. No Arguments
+When run without arguments, the program displays usage examples and available command-line options.
+
+**Example**
+StegoProject.exe
+
+## 2. Hide Mode
+Embeds a message file into the specified cover WAV file to create a stego (encoded) WAV file.  
+Each pair of successive byte values in the audio data is modified so that the LSBs (least significant bits) of their average represent the message data bits.
+
+**Command**
+StegoProject.exe -hide -c [cover file] -m [message file] (-o [stego file]) (-b [bitcount])
+
+**Parameters**
+- -c [cover file] — Input WAV file used to hide the message  
+- -m [message file] — File containing the message to be hidden  
+- -o [stego file] (optional) — Output WAV file (default: stego.wav)  
+- -b [bitcount] (optional) — Number of LSBs used for embedding (default: 1)
+
+**Example**
+StegoProject.exe -hide -c input.wav -m secret.txt -o hidden.wav -b 2
+
+## 3. Extract Mode
+Extracts a hidden message from a stego WAV file by reading the LSBs of the average of each pair of successive audio byte values.
+
+**Command**
+StegoProject.exe -extract -s [stego file] (-o [message file]) (-b [bitcount])
+
+**Parameters**
+- -s [stego file] — Input stego WAV file containing the hidden message  
+- -o [message file] (optional) — Output file for the extracted message (default: message.txt)  
+- -b [bitcount] (optional) — Number of LSBs used during hiding (must match embedding setting)
+
+**Example**
+StegoProject.exe -extract -s hidden.wav -o recovered.txt -b 2
+
+# How It Works
+1. The program reads every pair of successive bytes from the WAV data.  
+2. It computes their average.  
+3. The LSBs of that average are either replaced (in hide mode) or read (in extract mode) according to the message bits and specified bit count.
+
+This approach keeps the audio perceptually identical while embedding or retrieving hidden data.
