@@ -1,7 +1,7 @@
 # StegoProject
 
 # Description
-StegoProject is a steganography application that hides and extracts secret messages in **8-bit mono WAV** files.  
+This is a steganography application that hides and extracts secret messages in **8-bit mono WAV** files.  
 It embeds message bits into the least significant bits (LSBs) of the audio data without noticeably affecting sound quality.
 
 # Usage
